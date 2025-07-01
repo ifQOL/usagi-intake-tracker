@@ -1,38 +1,42 @@
 import streamlit as st
 
 st.set_page_config(page_title="うさぎのごはん達成率", layout="centered")
-st.title("🐇 うさぎのごはん達成率チェッカー")
+
+st.title("\U0001F407 うさぎのごはん達成率チェッカー")
 st.markdown("各食材の**基準量**と**実際に食べた量**を入力してください（g 単位）。")
 
-# CSSでselectboxの幅を整える
+# CSSでselectboxの幅と間隔を整える
 st.markdown("""
 <style>
     div[data-baseweb="select"] {
         width: 80px !important;
+        margin-right: -20px !important;
     }
 </style>
 """, unsafe_allow_html=True)
 
 # 各位のリスト（十の位・一の位・小数第一位）
-tens_options = list(range(0, 10))      # 0〜9（十の位）
-ones_options = list(range(0, 10))      # 0〜9（一の位）
-decimal_options = [i / 10 for i in range(0, 10)]  # 0.0〜0.9
+tens_options = list(range(0, 10))
+ones_options = list(range(0, 10))
+decimal_options = [(i / 10, f".{i}") for i in range(0, 10)]  # (0.0, ".0") 〜 (0.9, ".9")
 
 def combine_weight(tens, ones, decimal):
     return round((tens * 10) + ones + decimal, 1)
 
 with st.form("intake_form"):
-    st.subheader("📅 1日のごはん記録")
+    st.subheader("\U0001F4C5 1日のごはん記録")
 
     def intake_input(label_prefix, key_prefix, default=(0,0,0.0)):
         st.markdown(f"**{label_prefix}**")
-        col1, col2, col3 = st.columns(3)
+        col1, col2, col3 = st.columns([1, 1, 1], gap="small")
         with col1:
             t = st.selectbox("", tens_options, index=default[0], key=f"{key_prefix}_tens")
         with col2:
             o = st.selectbox("", ones_options, index=default[1], key=f"{key_prefix}_ones")
         with col3:
-            d = st.selectbox("", decimal_options, index=int(default[2]*10), key=f"{key_prefix}_decimal")
+            decimal_values = [d[0] for d in decimal_options]
+            decimal_labels = [d[1] for d in decimal_options]
+            d = st.selectbox("", options=decimal_values, format_func=lambda x: f".{int(x*10)}", index=int(default[2]*10), key=f"{key_prefix}_decimal")
         return combine_weight(t, o, d)
 
     # ペレット
@@ -69,6 +73,6 @@ if submitted:
     **ペレット：** {pellet_rate}%  
     **牧草：** {hay_rate}%  
     **野菜：** {veggie_rate}%  
-    ---
+    ---  
     **💪 総合達成率：{total_rate}%**
     """)
