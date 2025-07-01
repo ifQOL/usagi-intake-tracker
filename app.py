@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 st.set_page_config(page_title="うさぎのごはん達成率", layout="centered")
 
@@ -17,10 +18,14 @@ with st.form("intake_form"):
     st.subheader("\U0001F4C5 1日のごはん記録")
 
     def intake_input(label_prefix, default=(3,0,0.0)):
-        st.markdown(f"### • {label_prefix}")
-        t = st.selectbox(f"{label_prefix} - 十の位", tens_options, index=default[0])
-        o = st.selectbox(f"{label_prefix} - 一の位", ones_options, index=default[1])
-        d = st.selectbox(f"{label_prefix} - 小数（0.0〜0.9）", decimal_options, index=int(default[2]*10))
+        st.markdown(f"**{label_prefix}**")
+        col1, col2, col3 = st.columns([1, 1, 1])
+        with col1:
+            t = st.selectbox("十の位", tens_options, index=default[0], label_visibility="collapsed")
+        with col2:
+            o = st.selectbox("一の位", ones_options, index=default[1], label_visibility="collapsed")
+        with col3:
+            d = st.selectbox("小数位", decimal_options, index=int(default[2]*10), label_visibility="collapsed")
         return combine_weight(t, o, d)
 
     # ペレット
