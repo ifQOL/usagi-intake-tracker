@@ -5,23 +5,29 @@ st.set_page_config(page_title="うさぎのごはん達成率", layout="centered
 st.title("\U0001F407 うさぎのごはん達成率チェッカー")
 st.markdown("各食材の""\**基準量\**""と""\**実際に食べた量\**""を入力してください（g 単位）。")
 
+# 数値選択肢（0.0〜100.0gまで0.5刻み）
+def get_weight_options():
+    return [round(i * 0.5, 1) for i in range(0, 201)]
+
+weight_options = get_weight_options()
+
 with st.form("intake_form"):
     st.subheader("\U0001F4C5 1日のごはん記録")
 
     st.markdown("### • ペレット")
-    pellet_goal = st.number_input("基準量（合計/1日あたり）", min_value=0.0, value=30.0, step=1.0, key="pellet_goal")
-    pellet_morning = st.number_input("朝 食べた量", min_value=0.0, value=0.0, step=1.0, key="pellet_morning")
-    pellet_evening = st.number_input("晩 食べた量", min_value=0.0, value=0.0, step=1.0, key="pellet_evening")
+    pellet_goal = st.selectbox("基準量（合計/1日あたり）", options=weight_options, index=60, key="pellet_goal")
+    pellet_morning = st.selectbox("朝 食べた量", options=weight_options, index=0, key="pellet_morning")
+    pellet_evening = st.selectbox("晩 食べた量", options=weight_options, index=0, key="pellet_evening")
 
     st.markdown("### • 牧草")
-    hay_goal = st.number_input("基準量（合計/1日あたり）", min_value=0.0, value=60.0, step=1.0, key="hay_goal")
-    hay_morning = st.number_input("朝 食べた量", min_value=0.0, value=0.0, step=1.0, key="hay_morning")
-    hay_evening = st.number_input("晩 食べた量", min_value=0.0, value=0.0, step=1.0, key="hay_evening")
+    hay_goal = st.selectbox("基準量（合計/1日あたり）", options=weight_options, index=120, key="hay_goal")
+    hay_morning = st.selectbox("朝 食べた量", options=weight_options, index=0, key="hay_morning")
+    hay_evening = st.selectbox("晩 食べた量", options=weight_options, index=0, key="hay_evening")
 
     st.markdown("### • 野菜")
-    veggie_goal = st.number_input("基準量（合計/1日あたり）", min_value=0.0, value=20.0, step=1.0, key="veggie_goal")
-    veggie_morning = st.number_input("朝 食べた量", min_value=0.0, value=0.0, step=1.0, key="veggie_morning")
-    veggie_evening = st.number_input("晩 食べた量", min_value=0.0, value=0.0, step=1.0, key="veggie_evening")
+    veggie_goal = st.selectbox("基準量（合計/1日あたり）", options=weight_options, index=40, key="veggie_goal")
+    veggie_morning = st.selectbox("朝 食べた量", options=weight_options, index=0, key="veggie_morning")
+    veggie_evening = st.selectbox("晩 食べた量", options=weight_options, index=0, key="veggie_evening")
 
     submitted = st.form_submit_button("摂取率を計算")
 
