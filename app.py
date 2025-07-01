@@ -37,14 +37,19 @@ if submitted:
     veggie_rate = calc_rate(veggie_goal, veggie_morning, veggie_evening)
 
     total_goal = pellet_goal + hay_goal + veggie_goal
-    total_intake = pellet_morning + pellet_evening + hay_morning + hay_evening + veggie_morning + veggie_evening
-    total_rate = calc_rate(total_goal, total_intake, 0)
+    total_intake = (
+        pellet_morning + pellet_evening +
+        hay_morning + hay_evening +
+        veggie_morning + veggie_evening
+    )
+    total_rate = round((total_intake / total_goal) * 100, 1) if total_goal > 0 else 0
 
+    # 出力をゼロ埋め（00.0%）に整形
     st.success("✅ 今日の摂取率結果")
     st.markdown(f"""
-    **ペレット：** {pellet_rate}%  
-    **牧草：** {hay_rate}%  
-    **野菜：** {veggie_rate}%  
+    **ペレット：** {pellet_rate:05.1f}%  
+    **牧草：** {hay_rate:05.1f}%  
+    **野菜：** {veggie_rate:05.1f}%  
     ---
-    **💪 総合達成率：{total_rate}%**
+    **💪 総合達成率：{total_rate:05.1f}%**
     """)
