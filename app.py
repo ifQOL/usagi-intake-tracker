@@ -5,29 +5,38 @@ st.set_page_config(page_title="うさぎのごはん達成率", layout="centered
 st.title("\U0001F407 うさぎのごはん達成率チェッカー")
 st.markdown("各食材の""\**基準量\**""と""\**実際に食べた量\**""を入力してください（g 単位）。")
 
-# 数値選択肢（0.0〜100.0gまで0.5刻み）
-def get_weight_options():
-    return [round(i * 0.5, 1) for i in range(0, 201)]
+# 各位のリスト（十の位・一の位・小数第一位）
+tens_options = list(range(0, 10))      # 0〜9（十の位）
+ones_options = list(range(0, 10))      # 0〜9（一の位）
+decimal_options = [i / 10 for i in range(0, 10)]  # 0.0〜0.9（小数第一位）
 
-weight_options = get_weight_options()
+def combine_weight(tens, ones, decimal):
+    return round((tens * 10) + ones + decimal, 1)
 
 with st.form("intake_form"):
     st.subheader("\U0001F4C5 1日のごはん記録")
 
-    st.markdown("### • ペレット")
-    pellet_goal = st.selectbox("基準量（合計/1日あたり）", options=weight_options, index=60, key="pellet_goal")
-    pellet_morning = st.selectbox("朝 食べた量", options=weight_options, index=0, key="pellet_morning")
-    pellet_evening = st.selectbox("晩 食べた量", options=weight_options, index=0, key="pellet_evening")
+    def intake_input(label_prefix, default=(3,0,0.0)):
+        st.markdown(f"### • {label_prefix}")
+        t = st.selectbox(f"{label_prefix} - 十の位", tens_options, index=default[0])
+        o = st.selectbox(f"{label_prefix} - 一の位", ones_options, index=default[1])
+        d = st.selectbox(f"{label_prefix} - 小数（0.0〜0.9）", decimal_options, index=int(default[2]*10))
+        return combine_weight(t, o, d)
 
-    st.markdown("### • 牧草")
-    hay_goal = st.selectbox("基準量（合計/1日あたり）", options=weight_options, index=120, key="hay_goal")
-    hay_morning = st.selectbox("朝 食べた量", options=weight_options, index=0, key="hay_morning")
-    hay_evening = st.selectbox("晩 食べた量", options=weight_options, index=0, key="hay_evening")
+    # ペレット
+    pellet_goal = intake_input("ペレット 基準量（1日あたり）", (3, 0, 0.0))
+    pellet_morning = intake_input("ペレット 朝 食べた量", (0, 0, 0.0))
+    pellet_evening = intake_input("ペレット 晩 食べた量", (0, 0, 0.0))
 
-    st.markdown("### • 野菜")
-    veggie_goal = st.selectbox("基準量（合計/1日あたり）", options=weight_options, index=40, key="veggie_goal")
-    veggie_morning = st.selectbox("朝 食べた量", options=weight_options, index=0, key="veggie_morning")
-    veggie_evening = st.selectbox("晩 食べた量", options=weight_options, index=0, key="veggie_evening")
+    # 牧草
+    hay_goal = intake_input("牧草 基準量（1日あたり）", (6, 0, 0.0))
+    hay_morning = intake_input("牧草 朝 食べた量", (0, 0, 0.0))
+    hay_evening = intake_input("牧草 晩 食べた量", (0, 0, 0.0))
+
+    # 野菜
+    veggie_goal = intake_input("野菜 基準量（1日あたり）", (2, 0, 0.0))
+    veggie_morning = intake_input("野菜 朝 食べた量", (0, 0, 0.0))
+    veggie_evening = intake_input("野菜 晩 食べた量", (0, 0, 0.0))
 
     submitted = st.form_submit_button("摂取率を計算")
 
