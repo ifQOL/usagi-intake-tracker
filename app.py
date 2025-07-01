@@ -8,23 +8,31 @@ st.markdown("各食材の**基準量**と**実際に食べた量**を入力し�
 with st.form("intake_form"):
     st.subheader("📅 1日のごはん記録")
 
+    def number_input_with_unit(label, key, default):
+        col1, col2 = st.columns([4, 1])
+        with col1:
+            val = st.number_input(label, min_value=0.0, max_value=100.0, step=0.5, value=default, format="%.1f", key=key)
+        with col2:
+            st.markdown("g")
+        return val
+
     # ペレット
     st.markdown("### • ペレット")
-    pellet_goal = st.number_input("基準量（合計/1日あたり）", min_value=0.0, max_value=100.0, step=0.5, value=30.0, format="%.1f")
-    pellet_morning = st.number_input("朝 食べた量", min_value=0.0, max_value=100.0, step=0.5, value=0.0, format="%.1f")
-    pellet_evening = st.number_input("晩 食べた量", min_value=0.0, max_value=100.0, step=0.5, value=0.0, format="%.1f")
+    pellet_goal = number_input_with_unit("基準量（合計/1日あたり）", "pellet_goal", 30.0)
+    pellet_morning = number_input_with_unit("朝 食べた量", "pellet_morning", 0.0)
+    pellet_evening = number_input_with_unit("晩 食べた量", "pellet_evening", 0.0)
 
     # 牧草
     st.markdown("### • 牧草")
-    hay_goal = st.number_input("基準量（合計/1日あたり） ", min_value=0.0, max_value=100.0, step=0.5, value=60.0, format="%.1f")
-    hay_morning = st.number_input("朝 食べた量 ", min_value=0.0, max_value=100.0, step=0.5, value=0.0, format="%.1f")
-    hay_evening = st.number_input("晩 食べた量 ", min_value=0.0, max_value=100.0, step=0.5, value=0.0, format="%.1f")
+    hay_goal = number_input_with_unit("基準量（合計/1日あたり）", "hay_goal", 0.0)
+    hay_morning = number_input_with_unit("朝 食べた量", "hay_morning", 0.0)
+    hay_evening = number_input_with_unit("晩 食べた量", "hay_evening", 0.0)
 
     # 野菜
     st.markdown("### • 野菜")
-    veggie_goal = st.number_input("基準量（合計/1日あたり）  ", min_value=0.0, max_value=100.0, step=0.5, value=60.0, format="%.1f")
-    veggie_morning = st.number_input("朝 食べた量  ", min_value=0.0, max_value=100.0, step=0.5, value=0.0, format="%.1f")
-    veggie_evening = st.number_input("晩 食べた量  ", min_value=0.0, max_value=100.0, step=0.5, value=0.0, format="%.1f")
+    veggie_goal = number_input_with_unit("基準量（合計/1日あたり）", "veggie_goal", 0.0)
+    veggie_morning = number_input_with_unit("朝 食べた量", "veggie_morning", 0.0)
+    veggie_evening = number_input_with_unit("晩 食べた量", "veggie_evening", 0.0)
 
     submitted = st.form_submit_button("摂取率を計算")
 
