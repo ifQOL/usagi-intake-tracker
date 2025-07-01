@@ -10,21 +10,21 @@ with st.form("intake_form"):
 
     # ペレット
     st.markdown("### • ペレット")
-    pellet_goal = st.number_input("基準量（合計/1日あたり）", min_value=0.0, max_value=100.0, step=0.5, value=30.0)
-    pellet_morning = st.number_input("朝 食べた量", min_value=0.0, max_value=100.0, step=0.5, value=0.0)
-    pellet_evening = st.number_input("晩 食べた量", min_value=0.0, max_value=100.0, step=0.5, value=0.0)
+    pellet_goal = st.number_input("基準量（合計/1日あたり）", min_value=0.0, max_value=100.0, step=0.5, value=30.0, format="%.1f")
+    pellet_morning = st.number_input("朝 食べた量", min_value=0.0, max_value=100.0, step=0.5, value=0.0, format="%.1f")
+    pellet_evening = st.number_input("晩 食べた量", min_value=0.0, max_value=100.0, step=0.5, value=0.0, format="%.1f")
 
     # 牧草
     st.markdown("### • 牧草")
-    hay_goal = st.number_input("基準量（合計/1日あたり） ", min_value=0.0, max_value=100.0, step=0.5, value=60.0)
-    hay_morning = st.number_input("朝 食べた量 ", min_value=0.0, max_value=100.0, step=0.5, value=0.0)
-    hay_evening = st.number_input("晩 食べた量 ", min_value=0.0, max_value=100.0, step=0.5, value=0.0)
+    hay_goal = st.number_input("基準量（合計/1日あたり） ", min_value=0.0, max_value=100.0, step=0.5, value=60.0, format="%.1f")
+    hay_morning = st.number_input("朝 食べた量 ", min_value=0.0, max_value=100.0, step=0.5, value=0.0, format="%.1f")
+    hay_evening = st.number_input("晩 食べた量 ", min_value=0.0, max_value=100.0, step=0.5, value=0.0, format="%.1f")
 
     # 野菜
     st.markdown("### • 野菜")
-    veggie_goal = st.number_input("基準量（合計/1日あたり）  ", min_value=0.0, max_value=100.0, step=0.5, value=60.0)
-    veggie_morning = st.number_input("朝 食べた量  ", min_value=0.0, max_value=100.0, step=0.5, value=0.0)
-    veggie_evening = st.number_input("晩 食べた量  ", min_value=0.0, max_value=100.0, step=0.5, value=0.0)
+    veggie_goal = st.number_input("基準量（合計/1日あたり）  ", min_value=0.0, max_value=100.0, step=0.5, value=60.0, format="%.1f")
+    veggie_morning = st.number_input("朝 食べた量  ", min_value=0.0, max_value=100.0, step=0.5, value=0.0, format="%.1f")
+    veggie_evening = st.number_input("晩 食べた量  ", min_value=0.0, max_value=100.0, step=0.5, value=0.0, format="%.1f")
 
     submitted = st.form_submit_button("摂取率を計算")
 
